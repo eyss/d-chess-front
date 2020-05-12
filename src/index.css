@@ -1,0 +1,115 @@
+*{box-sizing: border-box}
+body{
+    margin: 0;
+}
+header{
+    background-color: #000;
+    color:white;
+}
+#menu-icon{
+    position: relative;
+    height: 8vh;
+    width: 8vh;
+    cursor: pointer;
+}
+#menu-icon span{
+    display: block;
+    position: absolute;
+    pointer-events: none;
+    height: .8vh;
+    width: 76%;
+    background-color: azure;
+    transform: translateY(-50%);
+    left:12%;
+    transition-duration: .3s;
+}
+.open-menu #menu-icon span{
+    top:50%!important;
+}
+#menu-icon span:nth-of-type(1){top:25%}
+#menu-icon span:nth-of-type(2){top:50%}
+#menu-icon span:nth-of-type(3){top:75%}
+.open-menu #menu-icon span:nth-of-type(1){transform: translateY(-50%) rotate(45deg);}
+.open-menu #menu-icon span:nth-of-type(2){transform: translateY(-50%) rotateY(90deg);}
+.open-menu #menu-icon span:nth-of-type(3){transform: translateY(-50%) rotate(-45deg);}
+#menu{
+    list-style: none;
+    padding: 0;
+    position: fixed;
+    left: 0;
+    top:8vh;
+    width: 100%;
+    background-color: #000;
+    color:white;
+    margin: 0;
+    height: 92vh;
+    transform: translateX(-100%);
+    transition-duration: .3s;
+}
+.open-menu #menu{
+    transform: translateX(0);
+}
+#menu li{
+    padding: .7em;
+}
+.open + #menu{
+    transform: translateX(0);
+}
+@media(min-width: 600px) {
+    #menu {
+        width: 30%;
+    }
+}
+
+
+
+.modal{
+    display:none;
+}
+
+.modal-container {
+    display: none;
+    position: fixed;
+    background-color: rgba(0, 0, 0, .8);
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+}
+.modal-container.loading {
+    display: block;
+}
+.modal-container.loading span{
+    display: block;
+    position: absolute;
+    top:39%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
+[class$="modal"]{
+    position: absolute;
+    background-color: black;
+    border:.35em solid #00b;
+    color:yellow;
+    padding: 2em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 1em;
+}
+[class$="modal"] h3{
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+[class$="modal"] input{
+    border: none;
+    padding: .3em;
+}
+[class$="modal"] button{
+    border: none;
+    padding: .3em;
+    color:black;
+    background-color: yellow;
+    font-weight: bold;
+}

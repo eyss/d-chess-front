@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>H-Chess</title>
+  <meta name="description" content="Holochain-based chess game">
+  <meta name="author" content="JhonatanHern">
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <header>
+    <div id="menu-icon" onclick="event.target.parentNode.classList.toggle('open-menu')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="menu">
+      <li>New Game</li>
+      <li>Continue previous game</li>
+      <li>Change refresh rate</li>
+    </ul>
+  </header>
+  <main>
+    <div id="my-board"></div>
+  </main>
+  <div class="modal" id="get-username">
+      <div>
+          <h3>What's your username?</h3>
+          <input type="text" placeholder="DrWho">
+          <button>send</button>
+      </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>
+</body>
+</html>
