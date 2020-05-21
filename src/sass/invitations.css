@@ -1,0 +1,53 @@
+#invitations .selector {
+  display: flex;
+  margin-top: 1.5em;
+  justify-content: space-around;
+  border-radius: 2em;
+}
+#invitations .selector button {
+  display: block;
+  flex-grow: 1;
+  background-color: #000;
+  background-color: silver;
+  font-size: 1.5em;
+  cursor: pointer;
+  border: none;
+}
+#invitations .selector button.selected {
+  background-color: #fff;
+  box-shadow: 0px 0px 8px 1px #888888;
+}
+#invitations .selector button:first-of-type {
+  border-right: 2px solid black;
+}
+#invitations section {
+  display: none;
+}
+#invitations section.selected {
+  display: block;
+}
+#invitations section > div {
+  background-color: #000;
+  margin-top: 1em;
+  padding: 0.5em;
+  font-size: 1.3em;
+  border: 1px solid #fff3;
+  display: flex;
+  justify-content: space-between;
+}
+#invitations section > div div:first-of-type {
+  padding: 0.3em;
+}
+#invitations section > div button {
+  outline: none;
+  border: 1px solid #fff3;
+  background-color: #000;
+  color: white;
+  padding: 0.3em;
+  font-size: 0.8em;
+  margin-left: 0.3em;
+  cursor: pointer;
+}
+#invitations section > div button:hover {
+  background-color: #111;
+}

@@ -1,0 +1,56 @@
+#invitations{
+    .selector{
+        display: flex;
+        margin-top: 1.5em;
+        justify-content: space-around;
+        border-radius: 2em;
+        // overflow: hidden;
+        button{
+            display: block;
+            flex-grow: 1;
+            background-color: #000;
+            background-color: silver;
+            font-size: 1.5em;
+            cursor: pointer;
+            border: none;
+            &.selected{
+                background-color: #fff;
+                box-shadow: 0px 0px 8px 1px #888888;;
+            }
+            &:first-of-type{
+                border-right: 2px solid black;
+            }
+        }
+    }
+    section{
+        display: none;
+        &.selected{
+            display: block;
+        }
+        > div {
+            background-color: #000;
+            margin-top: 1em;
+            padding: .5em;
+            font-size: 1.3em;
+            border: 1px solid #fff3;
+            display: flex;
+            justify-content: space-between;
+            div:first-of-type{
+                padding: .3em;
+            }
+            button{
+                outline: none;
+                border: 1px solid #fff3;
+                background-color: #000;
+                color:white;
+                padding: .3em;
+                font-size: .8em;
+                margin-left: .3em;
+                cursor: pointer;
+            }
+            button:hover{
+                background-color: #111;
+            }
+        }
+    }
+}

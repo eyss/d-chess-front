@@ -17,21 +17,51 @@
       <span></span>
       <span></span>
     </div>
-    <ul id="menu">
-      <li>New Game</li>
-      <li>Continue previous game</li>
+    <ul id="menu" onclick="document.getElementById('menu-icon').click()">
+      <li onclick="document.getElementById('invite').parentNode.style.display = 'block'">
+        New Game
+      </li>
+      <li>See my games</li>
+      <li id="see-invitations-button">See my invitations</li>
       <li>Change refresh rate</li>
     </ul>
   </header>
   <main>
-    <div id="my-board"></div>
-  </main>
-  <div class="modal" id="get-username">
-      <div>
-          <h3>What's your username?</h3>
-          <input type="text" placeholder="DrWho">
-          <button>send</button>
+    <div id="my-board" class="main-section"></div>
+    <div id="invitations" class="main-section">
+      <div class="selector">
+        <button id="received">received</button>
+        <button id="sent">sent</button>
       </div>
+      <section id="sent-invitations">
+        Sent
+      </section>
+      <section id="received-invitations">
+        Received
+      </section>
+    </div>
+    <div id="presentation" class="main-section" style="display: block">
+      <h1>CHESS</h1>
+      <p onclick="document.getElementById('menu-icon').click()">start</p>
+    </div>
+  </main>
+  <div class="modal-container">
+    <div class="modal" id="get-username">
+        <div>
+            <h3>What's your username?</h3>
+            <input type="text" placeholder="DrWho" id="send-username-input">
+            <button id="send-username-button">send</button>
+        </div>
+    </div>
+  </div>
+  <div class="modal-container">
+    <div class="modal" id="invite">
+        <div>
+            <h3>Write the username of the person wou want to play with</h3>
+            <input type="text" placeholder="Mr. Spock" id="invite-input">
+            <button id="invite-button">send invitation</button>
+        </div>
+    </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
   <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>

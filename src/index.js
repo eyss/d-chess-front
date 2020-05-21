@@ -1,12 +1,22 @@
 import Chess from 'chess.js'
+import checkProfile from './checkProfile'
+import manageSendInvite from './invite'
+import manageInvitations from './invitation-management'
+import assignMenuEventListeners from './menu'
 
 import './index.css'
 import './board.css'
+import './sass/invitations.scss'
 
 var board = null
 var game = new Chess()
 
 let userTurn = null
+
+checkProfile()
+manageSendInvite()
+manageInvitations()
+assignMenuEventListeners()
 
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
@@ -63,6 +73,6 @@ var config = {
   onDrop: onDrop,
   onSnapEnd: onSnapEnd
 }
-board = window.Chessboard('my-board', config)
+// board = window.Chessboard('my-board', config)
 
-updateStatus()
+// updateStatus()
