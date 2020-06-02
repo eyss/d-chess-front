@@ -2,6 +2,7 @@ import Chess from 'chess.js'
 import checkProfile from './checkProfile'
 import manageSendInvite from './invite'
 import manageInvitations from './invitation-management'
+import manageGames from './game-management'
 import assignMenuEventListeners from './menu'
 
 import './index.css'
@@ -11,8 +12,7 @@ import './sass/invitations.scss'
 var board = null
 var game = new Chess()
 
-let userTurn = null
-
+manageGames()
 checkProfile()
 manageSendInvite()
 manageInvitations()

@@ -4,9 +4,9 @@ import { connect } from '@holochain/hc-web-client'
 const call = (functionName, params = {}) => {
     return new Promise((succ,err)=>{
         connect(
-            process.env.NODE_ENV==="development"?{ url: "ws://localhost:3400"}:undefined
+            process.env.NODE_ENV==="development"?{ url: "ws://localhost:3401"}:undefined
         ).then(async ({callZome, close}) => {
-            let zCall = await callZome('__H_Wiki', 'game', functionName)(params)
+            let zCall = await callZome('__H_Wiki2', 'game', functionName)(params)
             console.log('zCall')
             console.log(zCall)
             succ(
@@ -113,6 +113,17 @@ const holochain = {
         return new Promise(async (succ,err) => {
             try{
                 const res = await call('get_my_public_address', {})
+                succ(res)
+            }catch(e){
+                console.error('Holochain error ',e)
+                err(e)
+            }
+        })
+    },
+    loadMyGames : () => {
+        return new Promise(async (succ,err) => {
+            try{
+                const res = await call('check_my_games', {})
                 succ(res)
             }catch(e){
                 console.error('Holochain error ',e)

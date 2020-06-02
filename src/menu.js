@@ -9,5 +9,8 @@ export default async () => {
     document.getElementById('see-invitations-button').addEventListener('click', async e => {
         openSection('invitations')
     })
+    document.getElementById('see-games-button').addEventListener('click', async e => {
+        openSection('games')
+    })
 }
 
