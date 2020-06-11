@@ -1,75 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>H-Chess</title>
-  <meta name="description" content="Holochain-based chess game">
-  <meta name="author" content="JhonatanHern">
-  <meta name="theme-color" content="#000000" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css" integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU" crossorigin="anonymous">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-  <header>
-    <div id="menu-icon" onclick="event.target.parentNode.classList.toggle('open-menu')">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <ul id="menu" onclick="document.getElementById('menu-icon').click()">
-      <li onclick="document.getElementById('invite').parentNode.style.display = 'block'">
-        New Game
-      </li>
-      <li id="see-games-button">See my games</li>
-      <li id="see-invitations-button">See my invitations</li>
-      <li>Change refresh rate</li>
-    </ul>
-  </header>
-  <main>
-    <div id="games" class="main-section">
-      <h2>My Games</h2>
-      <hr>
-      <section id="game-loader">
-        Loading...
-      </section>
-    </div>
-    <div id="invitations" class="main-section">
-      <div class="selector">
-        <button id="received">received</button>
-        <button id="sent">sent</button>
-      </div>
-      <section id="sent-invitations">
-        Sent
-      </section>
-      <section id="received-invitations">
-        Received
-      </section>
-    </div>
-    <div id="presentation" class="main-section" style="display: block">
-      <h1>CHESS</h1>
-      <p onclick="document.getElementById('menu-icon').click()">start</p>
-    </div>
-  </main>
-  <div class="modal-container">
-    <div class="modal" id="get-username">
-        <div>
+  <head>
+    <meta charset="utf-8" />
+    <title>H-Chess</title>
+    <meta name="description" content="Holochain-based chess game" />
+    <meta name="author" content="JhonatanHern" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
+      integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU"
+      crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <module-container>
+      <header>
+        <div
+          id="menu-icon"
+          onclick="event.target.parentNode.classList.toggle('open-menu')"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul id="menu" onclick="document.getElementById('menu-icon').click()">
+          <li
+            onclick="document.getElementById('invite').parentNode.style.display = 'block'"
+          >
+            New Game
+          </li>
+          <li id="see-games-button">See my games</li>
+          <li id="see-invitations-button">See my invitations</li>
+          <li>Change refresh rate</li>
+        </ul>
+      </header>
+      <main>
+        <div id="games" class="main-section">
+          <h2>My Games</h2>
+          <hr />
+          <section id="game-loader">
+            <hc-chess-my-games></hc-chess-my-games>
+          </section>
+        </div>
+        <div id="invitations" class="main-section">
+          <div class="selector">
+            <button id="received">received</button>
+            <button id="sent">sent</button>
+          </div>
+          <section id="sent-invitations">
+            Sent
+          </section>
+          <section id="received-invitations">
+            Received
+          </section>
+        </div>
+        <div id="presentation" class="main-section" style="display: block;">
+          <h1>CHESS</h1>
+          <p onclick="document.getElementById('menu-icon').click()">start</p>
+        </div>
+      </main>
+      <div class="modal-container">
+        <div class="modal" id="get-username">
+          <div>
             <h3>What's your username?</h3>
-            <input type="text" placeholder="DrWho" id="send-username-input">
-            <button id="send-username-button">send</button>
+            <hcpf-set-username></hcpf-set-username>
+          </div>
         </div>
-    </div>
-  </div>
-  <div class="modal-container">
-    <div class="modal" id="invite">
-        <div>
+      </div>
+      <div class="modal-container">
+        <div class="modal" id="invite">
+          <div>
             <h3>Write the username of the person wou want to play with</h3>
-            <input type="text" placeholder="Mr. Spock" id="invite-input">
+            <input type="text" placeholder="Mr. Spock" id="invite-input" />
             <button id="invite-button">send invitation</button>
+          </div>
         </div>
-    </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
-  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js" integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"></script>
-</body>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+      <script
+        src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
+        integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
+        crossorigin="anonymous"
+      ></script>
+    </module-container>
+  </body>
 </html>

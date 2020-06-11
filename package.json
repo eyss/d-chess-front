@@ -3,12 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@authentic/mwc-circular-progress": "^0.9.0",
     "@chrisoakman/chessboardjs": "^1.0.0",
     "@holochain/hc-web-client": "^0.5.3",
+    "@material/mwc-list": "^0.15.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@uprtcl/graphql": "0.0.7-alpha.36",
+    "@uprtcl/micro-orchestrator": "0.0.7-alpha.36",
     "chess.js": "^0.10.3",
+    "chessboard-element": "^1.0.0-pre.10",
+    "graphql-tag": "^2.10.3",
+    "holochain-profiles": "0.0.7",
+    "lit-element": "^2.3.1",
     "modernizr": "^3.10.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
@@ -16,7 +24,8 @@
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3000 REACT_APP_WS_URL=ws://localhost:3400 react-scripts start",
+    "start:bob": "PORT=3001 REACT_APP_WS_URL=ws://localhost:3401 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
