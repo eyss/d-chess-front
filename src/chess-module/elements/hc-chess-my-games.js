@@ -1,4 +1,5 @@
-import { LitElement, html } from "lit-element";
+import { LitElement, html, css } from "lit-element";
+import { sharedStyles } from "./sharedStyles";
 
 export class ChessMyGames extends LitElement {
   static get properties() {
@@ -7,6 +8,10 @@ export class ChessMyGames extends LitElement {
         type: String,
       },
     };
+  }
+
+  static get styles() {
+    return [sharedStyles, css``];
   }
 
   render() {

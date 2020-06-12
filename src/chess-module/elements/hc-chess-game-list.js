@@ -72,6 +72,8 @@ export class ChessGameList extends moduleConnect(LitElement) {
       return html`<span>You don't have any active games</span>`;
 
     return html`
+      <h2>My Games</h2>
+      <hr />
       <mwc-list>
         ${this.games.map((game) => this.renderGame(game))}
       </mwc-list>

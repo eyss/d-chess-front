@@ -1,10 +1,11 @@
 import { moduleConnect } from "@uprtcl/micro-orchestrator";
-import { LitElement, html, styleMap } from "lit-element";
+import { LitElement, html, styleMap, css } from "lit-element";
 import { HolochainConnectionModule } from "@uprtcl/holochain-provider";
 import { ApolloClientModule } from "@uprtcl/graphql";
 import gql from "graphql-tag";
 import "chessboard-element";
 import * as Chess from "chess.js";
+import { sharedStyles } from "./sharedStyles";
 
 const whiteSquareGrey = "#a9a9a9";
 const blackSquareGrey = "#696969";
@@ -24,6 +25,23 @@ export class ChessGame extends moduleConnect(LitElement) {
     };
   }
 
+  static get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+        }
+
+        .board {
+          height: 70vh;
+        }
+      `,
+    ];
+  }
+
   listenForOpponentMove() {
     const hcConnection = this.request(
       HolochainConnectionModule.bindings.HolochainConnection
@@ -34,12 +52,12 @@ export class ChessGame extends moduleConnect(LitElement) {
 
       this.shadowRoot.getElementById("board").move(moveString);
       this.chessGame.move(moveString, { sloppy: true });
+      this.game.moves.push(`${from}-${to}`);
+      this.requestUpdate();
     });
   }
 
   async firstUpdated() {
-    this.listenForOpponentMove();
-
     this.client = this.request(ApolloClientModule.bindings.Client);
 
     const result = await this.client.query({
@@ -74,6 +92,8 @@ export class ChessGame extends moduleConnect(LitElement) {
     this.chessGame = new Chess(this.game.state);
 
     this.chessStyles = "";
+
+    this.listenForOpponentMove();
   }
 
   amIWhite() {
@@ -85,6 +105,10 @@ export class ChessGame extends moduleConnect(LitElement) {
     const myColor = this.amIWhite() ? "w" : "b";
 
     return turnColor === myColor;
+  }
+
+  getOpponent() {
+    return this.game.players.find((player) => player.id !== this.myAddress);
   }
 
   removeGreySquares() {
@@ -169,6 +193,9 @@ export class ChessGame extends moduleConnect(LitElement) {
   }
 
   makeMove(from, to) {
+    this.game.moves.push(`${from}-${to}`);
+    this.requestUpdate();
+
     this.client.mutate({
       mutation: gql`
         mutation MakeMove($gameId: ID!, $from: String!, $to: String!) {
@@ -183,23 +210,45 @@ export class ChessGame extends moduleConnect(LitElement) {
     });
   }
 
+  renderMoveList() {
+    return html` <div class="column" style="flex: 1;">
+      <h3>Move history</h3>
+      <mwc-list class="board" style="overflow: auto;">
+        ${this.game.moves.map(
+          (move, i) =>
+            html`<mwc-list-item>
+              <span style="color: white">${i + 1}. ${move}</span></mwc-list-item
+            >`
+        )}
+      </mwc-list>
+    </div>`;
+  }
+
   render() {
     if (!this.game)
       return html`<mwc-circular-progress></mwc-circular-progress>`;
 
     return html`
       <style id="chessStyle"></style>
-      <chess-board
-        id="board"
-        style="width: 70vh;"
-        .orientation=${this.amIWhite() ? "white" : "black"}
-        position="${this.game.state}"
-        draggable-pieces
-        @drag-start=${this.onDragStart}
-        @drop=${this.onDrop}
-        @mouseover-square=${this.onMouseOverSquare}
-        @mouseout-square=${this.removeGreySquares}
-      ></chess-board>
+      <h2>Game vs @${this.getOpponent().username}</h2>
+      <hr />
+
+      <div class="row board">
+        <chess-board
+          id="board"
+          class="board"
+          style="width: 70vh; margin-right: 40px"
+          .orientation=${this.amIWhite() ? "white" : "black"}
+          position="${this.game.state}"
+          draggable-pieces
+          @drag-start=${this.onDragStart}
+          @drop=${this.onDrop}
+          @mouseover-square=${this.onMouseOverSquare}
+          @mouseout-square=${this.removeGreySquares}
+        ></chess-board>
+
+        ${this.renderMoveList()}
+      </div>
     `;
   }
 }

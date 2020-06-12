@@ -39,9 +39,7 @@
       </header>
       <main>
         <div id="games" class="main-section">
-          <h2>My Games</h2>
-          <hr />
-          <section id="game-loader">
+          <section id="game-loader" style="width: 100%;">
             <hc-chess-my-games></hc-chess-my-games>
           </section>
         </div>
@@ -66,7 +64,7 @@
         <div class="modal" id="get-username">
           <div>
             <h3>What's your username?</h3>
-            <hcpf-set-username></hcpf-set-username>
+            <hcpf-set-username usernameMinLength="4"></hcpf-set-username>
           </div>
         </div>
       </div>

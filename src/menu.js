@@ -2,7 +2,7 @@ const openSection = sectionName => {
     [...document.querySelectorAll('main > div')].forEach(div=>{
         div.style.display = 'none'
     })
-    document.getElementById(sectionName).style.display = 'block'
+    document.getElementById(sectionName).style.display = 'flex'
 }
 
 export default async () => {
