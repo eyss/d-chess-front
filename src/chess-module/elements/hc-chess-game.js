@@ -38,6 +38,10 @@ export class ChessGame extends moduleConnect(LitElement) {
         .board {
           height: 70vh;
         }
+
+        .game-info > span {
+          margin-bottom: 16px;
+        }
       `,
     ];
   }
@@ -84,6 +88,7 @@ export class ChessGame extends moduleConnect(LitElement) {
       variables: {
         gameId: this.gameId,
       },
+      fetchPolicy: "network-only",
     });
 
     this.myAddress = result.data.me.id;
@@ -211,29 +216,74 @@ export class ChessGame extends moduleConnect(LitElement) {
   }
 
   renderMoveList() {
-    return html` <div class="column" style="flex: 1;">
+    return html`
       <h3>Move history</h3>
-      <mwc-list class="board" style="overflow: auto;">
-        ${this.game.moves.map(
-          (move, i) =>
-            html`<mwc-list-item>
-              <span style="color: white">${i + 1}. ${move}</span></mwc-list-item
-            >`
-        )}
-      </mwc-list>
-    </div>`;
+      <div class="row" style="overflow-y: auto;">
+        <mwc-list>
+          ${this.game.moves
+            .filter((_, i) => i % 2 === 0)
+            .map(
+              (move, i) =>
+                html`<mwc-list-item>
+                  <span style="color: white"
+                    >${i * 2 + 1}. ${move}</span
+                  ></mwc-list-item
+                >`
+            )}
+        </mwc-list>
+
+        <mwc-list>
+          ${this.game.moves
+            .filter((_, i) => i % 2 === 1)
+            .map(
+              (move, i) =>
+                html`<mwc-list-item>
+                  <span style="color: white"
+                    >${i * 2 + 2}. ${move}</span
+                  ></mwc-list-item
+                >`
+            )}
+        </mwc-list>
+      </div>
+    `;
+  }
+
+  getResult() {
+    if (this.chessGame.game_over()) {
+      if (!this.chessGame.in_checkmate()) return "Game Over: Draw";
+      if (this.isMyTurn())
+        return `Game Over: @${this.getOpponent().username} wins!`;
+      return `Game Over: You win!`;
+    } else {
+      if (this.isMyTurn()) return `Your turn`;
+      return `@${this.getOpponent().username}'s turn`;
+    }
+  }
+
+  renderGameInfo() {
+    return html`
+      <div class="column board game-info">
+        <span style="font-size: 24px;">${this.getResult()}</span>
+        <span>Opponent: @${this.getOpponent().username}</span>
+        <span
+          >Created at: ${new Date(this.game.createdAt).toLocaleString()}</span
+        >
+
+        ${this.renderMoveList()}
+      </div>
+    `;
   }
 
   render() {
     if (!this.game)
-      return html`<mwc-circular-progress></mwc-circular-progress>`;
+      return html`<div class="container">
+        <mwc-circular-progress></mwc-circular-progress>
+      </div>`;
 
     return html`
       <style id="chessStyle"></style>
-      <h2>Game vs @${this.getOpponent().username}</h2>
-      <hr />
 
-      <div class="row board">
+      <div class="row board" style="justify-content: center">
         <chess-board
           id="board"
           class="board"
@@ -247,7 +297,7 @@ export class ChessGame extends moduleConnect(LitElement) {
           @mouseout-square=${this.removeGreySquares}
         ></chess-board>
 
-        ${this.renderMoveList()}
+        ${this.renderGameInfo()}
       </div>
     `;
   }

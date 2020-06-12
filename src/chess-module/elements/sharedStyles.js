@@ -1,5 +1,4 @@
-import { css } from 'lit-element';
-
+import { css } from "lit-element";
 
 export const sharedStyles = css`
   .row {
@@ -12,4 +11,11 @@ export const sharedStyles = css`
     flex-direction: column;
   }
 
-`
+  .container {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+`;
