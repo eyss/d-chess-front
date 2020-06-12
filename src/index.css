@@ -13,6 +13,19 @@ header{
     background-color: #000;
     color:white;
 }
+
+hcpf-set-username {
+    --mdc-theme-on-primary: black;
+    --mdc-button-disabled-fill-color: white;
+    --mdc-text-field-outlined-idle-border-color: white;
+    --mdc-text-field-outlined-hover-border-color: white;
+    --mdc-text-field-ink-color: white;
+}
+
+#get-username {
+    background-color: #6e6135;
+}
+
 main{
     width: 100vw;
     height: 92vh;
