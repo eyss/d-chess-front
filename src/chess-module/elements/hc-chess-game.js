@@ -1,5 +1,6 @@
 import { moduleConnect } from "@uprtcl/micro-orchestrator";
 import { LitElement, html, styleMap } from "lit-element";
+import { HolochainConnectionModule } from "@uprtcl/holochain-provider";
 import { ApolloClientModule } from "@uprtcl/graphql";
 import gql from "graphql-tag";
 import "chessboard-element";
@@ -23,7 +24,22 @@ export class ChessGame extends moduleConnect(LitElement) {
     };
   }
 
+  listenForOpponentMove() {
+    const hcConnection = this.request(
+      HolochainConnectionModule.bindings.HolochainConnection
+    );
+    hcConnection.onSignal("opponent-moved", (move) => {
+      const { from, to } = JSON.parse(move.game_move).PlacePiece;
+      const moveString = `${from}-${to}`;
+
+      this.shadowRoot.getElementById("board").move(moveString);
+      this.chessGame.move(moveString, { sloppy: true });
+    });
+  }
+
   async firstUpdated() {
+    this.listenForOpponentMove();
+
     this.client = this.request(ApolloClientModule.bindings.Client);
 
     const result = await this.client.query({
@@ -60,9 +76,13 @@ export class ChessGame extends moduleConnect(LitElement) {
     this.chessStyles = "";
   }
 
+  amIWhite() {
+    return this.game.players[0].id === this.myAddress;
+  }
+
   isMyTurn() {
     const turnColor = this.chessGame.turn();
-    const myColor = this.game.players[0].id === this.myAddress ? "w" : "b";
+    const myColor = this.amIWhite() ? "w" : "b";
 
     return turnColor === myColor;
   }
@@ -170,7 +190,9 @@ export class ChessGame extends moduleConnect(LitElement) {
     return html`
       <style id="chessStyle"></style>
       <chess-board
+        id="board"
         style="width: 70vh;"
+        .orientation=${this.amIWhite() ? "white" : "black"}
         position="${this.game.state}"
         draggable-pieces
         @drag-start=${this.onDragStart}
