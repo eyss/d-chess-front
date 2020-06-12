@@ -18,7 +18,6 @@ import "./sass/invitations.scss";
 import { ChessModule } from "./chess-module/chess.module";
 import { ProfilesModule } from "holochain-profiles";
 import { ApolloClientModule } from "@uprtcl/graphql";
-import { ChessMain } from './hc-chess-main';
 import checkProfile from './checkProfile';
 
 var board = null;

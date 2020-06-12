@@ -286,8 +286,7 @@ export class ChessGame extends moduleConnect(LitElement) {
       <div class="row board" style="justify-content: center">
         <chess-board
           id="board"
-          class="board"
-          style="width: 70vh; margin-right: 40px"
+          style="width: 700px; margin-right: 40px"
           .orientation=${this.amIWhite() ? "white" : "black"}
           position="${this.game.state}"
           draggable-pieces
