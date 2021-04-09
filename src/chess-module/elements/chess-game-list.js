@@ -1,14 +1,12 @@
-import { moduleConnect } from "@uprtcl/micro-orchestrator";
 import { LitElement, html } from "lit-element";
-import { ApolloClientModule } from "@uprtcl/graphql";
 import gql from "graphql-tag";
 import { sharedStyles } from "./sharedStyles";
 
-import "@authentic/mwc-circular-progress";
-import "@material/mwc-list";
-import "@material/mwc-list/mwc-list-item";
+import { CircularProgress } from "scoped-material-components/mwc-circular-progress";
+import { List } from "scoped-material-components/mwc-list";
+import { ListItem } from "scoped-material-components/mwc-list-item";
 
-export class ChessGameList extends moduleConnect(LitElement) {
+export class ChessGameList extends BaseElement {
   static get properties() {
     return {
       games: {
@@ -16,6 +14,8 @@ export class ChessGameList extends moduleConnect(LitElement) {
       },
     };
   }
+
+  get _deps() {}
 
   static get styles() {
     return [sharedStyles];
@@ -81,9 +81,15 @@ export class ChessGameList extends moduleConnect(LitElement) {
     return html`
       <h2>My Games</h2>
       <hr />
-      <mwc-list>
-        ${this.games.map((game) => this.renderGame(game))}
-      </mwc-list>
+      <mwc-list> ${this.games.map((game) => this.renderGame(game))} </mwc-list>
     `;
+  }
+
+  getScopedElements() {
+    return {
+      "mwc-list": List,
+      "mwc-list-item": ListItem,
+      "mwc-circular-progress": CircularProgress,
+    };
   }
 }

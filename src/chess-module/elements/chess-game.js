@@ -1,16 +1,18 @@
-import { moduleConnect } from "@uprtcl/micro-orchestrator";
 import { LitElement, html, styleMap, css } from "lit-element";
-import { HolochainConnectionModule } from "@uprtcl/holochain-provider";
-import { ApolloClientModule } from "@uprtcl/graphql";
 import gql from "graphql-tag";
 import "chessboard-element";
 import * as Chess from "chess.js";
 import { sharedStyles } from "./sharedStyles";
+import { BaseElement } from "@holochain-open-dev/common";
+import ConductorApi from "@holochain/conductor-api";
+import * as msgpack from "@msgpack/msgpack";
+import { CircularProgress } from "scoped-material-components/mwc-circular-progress";
+import { List } from "scoped-material-components/mwc-list";
 
 const whiteSquareGrey = "#a9a9a9";
 const blackSquareGrey = "#696969";
 
-export class ChessGame extends moduleConnect(LitElement) {
+export class ChessGame extends BaseElement {
   static get properties() {
     return {
       myAddress: {
@@ -24,6 +26,8 @@ export class ChessGame extends moduleConnect(LitElement) {
       },
     };
   }
+
+  get _deps() {}
 
   static get styles() {
     return [
@@ -47,22 +51,25 @@ export class ChessGame extends moduleConnect(LitElement) {
   }
 
   listenForOpponentMove() {
-    const hcConnection = this.request(
-      HolochainConnectionModule.bindings.HolochainConnection
-    );
-    hcConnection.onSignal("opponent-moved", (move) => {
-      const { from, to } = JSON.parse(move.game_move).PlacePiece;
-      const moveString = `${from}-${to}`;
+    const hcConnection = this._deps.appWebscoket;
+    ConductorApi.AppWebsocket.connect(
+      hcConnection.client.socket.url,
+      15000,
+      (signal) => {
+        const payload = signal.data.payload;
+        const { from, to } = msgpack.decode(payload.game_move).PlacePiece;
+        const moveString = `${from}-${to}`;
 
-      this.shadowRoot.getElementById("board").move(moveString);
-      this.chessGame.move(moveString, { sloppy: true });
-      this.game.moves.push(`${from}-${to}`);
-      this.requestUpdate();
-    });
+        this.shadowRoot.getElementById("board").move(moveString);
+        this.chessGame.move(moveString, { sloppy: true });
+        this.game.moves.push(`${from}-${to}`);
+        this.requestUpdate();
+      }
+    );
   }
 
   async firstUpdated() {
-    this.client = this.request(ApolloClientModule.bindings.Client);
+    this.client = this._deps.client;
 
     const result = await this.client.query({
       query: gql`
@@ -299,5 +306,12 @@ export class ChessGame extends moduleConnect(LitElement) {
         ${this.renderGameInfo()}
       </div>
     `;
+  }
+
+  getScopedElements() {
+    return {
+      "mwc-circular-progress": CircularProgress,
+      "mwc-list": List,
+    };
   }
 }

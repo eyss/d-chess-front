@@ -1,8 +1,11 @@
 import { LitElement, html, css } from "lit-element";
 import { sharedStyles } from "./sharedStyles";
-import "@material/mwc-button";
+import { BaseElement, connectDeps } from "@holochain-open-dev/common";
+import { Button } from "scoped-material-components/mwc-button";
+import { ChessGame } from "./chess-game";
+import { ChessGameList } from "./chess-game-list";
 
-export class ChessMyGames extends LitElement {
+export class ChessMyGames extends BaseElement {
   static get properties() {
     return {
       selectedGameId: {
@@ -15,11 +18,13 @@ export class ChessMyGames extends LitElement {
     return [sharedStyles, css``];
   }
 
+  get _deps() {}
+
   render() {
     if (!this.selectedGameId)
-      return html` <hc-chess-game-list
+      return html` <chess-game-list
         @game-selected=${(e) => (this.selectedGameId = e.detail.gameId)}
-      ></hc-chess-game-list>`;
+      ></chess-game-list>`;
     else
       return html`
         <div class="column" style="height: 100%;">
@@ -29,9 +34,17 @@ export class ChessMyGames extends LitElement {
             @click=${() => (this.selectedGameId = null)}
             style="align-self: start;"
           ></mwc-button>
-          <hr style="width: 100%; margin-bottom: 60px;">
-          <hc-chess-game .gameId=${this.selectedGameId}></hc-chess-game>
+          <hr style="width: 100%; margin-bottom: 60px;" />
+          <chess-game .gameId=${this.selectedGameId}></chess-game>
         </div>
       `;
+  }
+
+  getScopedElements() {
+    return {
+      "mwc-button": Button,
+      "chess-game": connectDeps(ChessGame, this._deps),
+      "chess-game-list": connectDeps(ChessGameList, this._deps),
+    };
   }
 }

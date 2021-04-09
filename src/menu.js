@@ -12,7 +12,7 @@ const openSection = (sectionName) => {
 
   const gameSection = document.getElementById("game-loader");
   if (sectionName === "games") {
-    const element = document.createElement("hc-chess-my-games");
+    const element = document.createElement("chess-my-games");
     gameSection.appendChild(element);
   } else {
     gameSection.textContent = ''
